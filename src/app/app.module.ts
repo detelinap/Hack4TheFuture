@@ -5,6 +5,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { MainPageComponent } from '../app/main-page/main-page.component'
 import {TabMenuModule} from 'primeng/tabmenu';
+import {WebcamModule} from 'ngx-webcam';
 
 @NgModule({
   declarations: [
@@ -15,6 +16,7 @@ import {TabMenuModule} from 'primeng/tabmenu';
     BrowserModule,
     AppRoutingModule,
     TabMenuModule,
+    WebcamModule
   ],
   providers: [],
   bootstrap: [AppComponent]
