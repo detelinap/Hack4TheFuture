@@ -1,0 +1,4 @@
+:host ::ngdeep .p-tabview-nav {
+    display: flex;
+    flex: 1;
+}

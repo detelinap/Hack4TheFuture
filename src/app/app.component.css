@@ -1,0 +1,8 @@
+:host ::ng-deep .p-tabmenu-nav {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+:host ::ng-deep .p-tabmenu {
+    width: 100%;
+}
