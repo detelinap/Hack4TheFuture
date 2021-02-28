@@ -1,26 +1,32 @@
-import {AfterViewInit, Component, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {UserService} from "../../services/user.service";
-import {Subject} from "rxjs/Subject";
-import {Observable} from "rxjs/Observable";
-import {MessageService} from "../../services/message.service";
-import {User} from "../../model/user.model";
-import {Subscription} from "rxjs/Subscription";
-import {Message} from "../../model/message.model";
+import {
+  AfterViewInit,
+  Component,
+  Input,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
+import { UserService } from '../../services/user.service';
+import { Subject } from 'rxjs/Subject';
+import { Observable } from 'rxjs/Observable';
+import { MessageService } from '../../services/message.service';
+import { User } from '../../model/user.model';
+import { Subscription } from 'rxjs/Subscription';
+import { Message } from '../../model/message.model';
 
 @Component({
   selector: 'app-chat-window',
   templateUrl: './chat-window.component.html',
   styleUrls: ['./chat-window.component.css'],
   providers: [UserService],
-  host: {'class': 'chat-window'}
+  host: { class: 'chat-window' },
 })
 export class ChatWindowComponent implements OnDestroy, OnInit, AfterViewInit {
-
-  @ViewChild("messageContainer") messagesContainer;
+  @ViewChild('messageContainer') messagesContainer;
 
   messages: Message[] = [];
 
-  private _message: string = "";
+  private _message: string = '';
 
   get message(): string {
     return this._message;
@@ -35,13 +41,6 @@ export class ChatWindowComponent implements OnDestroy, OnInit, AfterViewInit {
     }
   }
 
-  /**
-   * ID of this chat window's sender. This could be used to get info
-   * like user details etc.
-   * Ideally this would be at the Chat App level and each Chat Window would
-   * request it but for this exercise since our browser has the sender and the receiver
-   * at the same level, I am bring it down to the ChatWindow level.
-   */
   private _senderId: number;
 
   public name: String;
@@ -52,7 +51,7 @@ export class ChatWindowComponent implements OnDestroy, OnInit, AfterViewInit {
 
   @Input()
   set senderId(value: number) {
-    if (typeof value === "number") {
+    if (typeof value === 'number') {
       this._senderId = value;
       this.populateUserInfo(value);
       this.messageService.register(value, this.messengerObs);
@@ -72,7 +71,7 @@ export class ChatWindowComponent implements OnDestroy, OnInit, AfterViewInit {
 
   @Input()
   set receiverId(value: number) {
-    if (typeof value === "number") {
+    if (typeof value === 'number') {
       this._receiverId = value;
     }
   }
@@ -80,13 +79,11 @@ export class ChatWindowComponent implements OnDestroy, OnInit, AfterViewInit {
   receiverTyping: boolean = false;
 
   /**
-   * Will be used to send the message
    * @type {Subject<string>}
    */
   private messenger: Subject<Message> = new Subject<Message>();
 
   /**
-   * The receiver will subscribe to this observable
    * @returns {Observable<String>}
    */
   get messengerObs(): Observable<Message> {
@@ -102,35 +99,34 @@ export class ChatWindowComponent implements OnDestroy, OnInit, AfterViewInit {
   private receiverSub: Subscription;
   private receiverTypingSub: Subscription;
 
-  constructor(private userService: UserService, private messageService: MessageService) {
-  }
+  constructor(
+    private userService: UserService,
+    private messageService: MessageService
+  ) {}
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
-  /**
-   * Connect to the receiver
-   */
   ngAfterViewInit() {
-    // The receiver would retrieve the message history from the database here
-    // every time the connection is view is loaded.
-
-    const receiver: Observable<Message> = this.messageService.subscribe(this.receiverId);
+    const receiver: Observable<Message> = this.messageService.subscribe(
+      this.receiverId
+    );
     if (receiver) {
       this.receiverSub = receiver.subscribe((message) => {
         this.messages.push(message);
-        this.scrollToBottom();
       });
     }
 
-    const receiverTyping: Observable<boolean> = this.messageService.subscribeTyping(this.receiverId);
+    const receiverTyping: Observable<boolean> = this.messageService.subscribeTyping(
+      this.receiverId
+    );
     if (receiverTyping) {
-      this.receiverTypingSub = receiverTyping.subscribe(typing => this.receiverTyping = typing);
+      this.receiverTypingSub = receiverTyping.subscribe(
+        (typing) => (this.receiverTyping = typing)
+      );
     }
   }
 
   /**
-   * Populates user info
    * @param id
    */
   populateUserInfo(id: number): void {
@@ -138,52 +134,28 @@ export class ChatWindowComponent implements OnDestroy, OnInit, AfterViewInit {
     if (user) {
       this.name = user.name;
     } else {
-      throw new Error("User not found");
+      throw new Error('User not found');
     }
   }
 
-  /**
-   * Sends message to the receiver
-   */
   sendMessage(): void {
     if (this._message) {
-      // Send Message
-
-      const newMessage: Message = new Message(this._message, this.senderId, this.receiverId);
+      const newMessage: Message = new Message(
+        this._message,
+        this.senderId,
+        this.receiverId
+      );
 
       this.messages.push(newMessage);
 
-      this.messenger.next(
-        newMessage
-      );
+      this.messenger.next(newMessage);
 
-      // Clear Message
-      this.message = "";
-
-      // The sender would save the messages array to the database
-      // That way both sender and receiver have the same history
-      // Each time the connection is re-established the message array is
-      // retrieved from the database
-
-      this.scrollToBottom();
+      this.message = '';
     }
   }
 
-  scrollToBottom() {
-    if (this.messagesContainer) {
-      // Set timeout to scroll after the view has been updated with the new message
-      setTimeout(() => {
-        this.messagesContainer.nativeElement.scrollTop = this.messagesContainer.nativeElement.scrollHeight;
-      }, 0);
-    }
-  }
-
-  /**
-   * Unsubscribe
-   */
   ngOnDestroy() {
     this.receiverSub.unsubscribe();
     this.receiverTypingSub.unsubscribe();
   }
-
 }

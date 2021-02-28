@@ -7,8 +7,8 @@ export class Message {
   
     generateTimeStamp(): string {
       const date = new Date();
-      return "" + date.getMonth()
-        + "/" + date.getDate() + "/"
+      return "" + date.getDate() 
+        + "/" + date.getMonth() + "/"
         + date.getFullYear() + " "
         + date.getHours() + ":"
         + date.getMinutes();
