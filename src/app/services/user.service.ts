@@ -4,11 +4,11 @@ import {User} from "../model/user.model";
 const USER_LIST: User[] = [
   {
     id: 1,
-    name: "Ученик"
+    name: "Gosho (student two)"
   },
   {
     id: 2,
-    name: "Учител"
+    name: "Sasho (student one)"
   }
 ];
 

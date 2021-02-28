@@ -108,11 +108,12 @@ export class ChatWindowComponent implements OnDestroy, OnInit, AfterViewInit {
 
   ngAfterViewInit() {
     const receiver: Observable<Message> = this.messageService.subscribe(
-      this.receiverId
+      this.senderId
     );
     if (receiver) {
       this.receiverSub = receiver.subscribe((message) => {
-        this.messages.push(message);
+        this.messages.push(message)
+        // this.messenger.next(message);
       });
     }
 
@@ -143,10 +144,11 @@ export class ChatWindowComponent implements OnDestroy, OnInit, AfterViewInit {
       const newMessage: Message = new Message(
         this._message,
         this.senderId,
-        this.receiverId
+        this.receiverId,
+        
       );
 
-      this.messages.push(newMessage);
+      // this.messages.push(newMessage);
 
       this.messenger.next(newMessage);
 

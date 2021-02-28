@@ -3,6 +3,17 @@
     flex: 1;
 }
 
+.webcam {
+    display: flex;
+    flex-direction: column;
+}
+
+.webcam>h1 {
+    margin: 1px;
+    align-self: center;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"
+}
+
 .chat {
     padding: 10px;
 }

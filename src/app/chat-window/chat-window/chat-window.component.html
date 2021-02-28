@@ -5,7 +5,7 @@
                 <p-chip [label]='receiverName' image="assets/cheerful-curly-business-girl-wearing-glasses.jpg"></p-chip>
             </ng-container>
             <p-divider align="center">
-                <span class="p-tag">Стари съобщения</span>
+                <span class="p-tag">Old messages</span>
             </p-divider>
             <ng-container *ngFor="let message of messages">
                 <div *ngIf="message.sentBy === senderId" class="sent">
@@ -32,7 +32,7 @@
 
     <div class="chat-window-header">
         <ng-container *ngIf="receiverTyping">
-            {{name}} пише...
+            {{name}} is writing...
         </ng-container>
     </div>
 
