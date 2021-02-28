@@ -8,6 +8,10 @@ import { MenuItem } from 'primeng/api';
   styleUrls: ['./main-page.component.css']
 })
 export class MainPageComponent implements OnInit {
+
+    
+  userOneId: number = 1;
+  userTwoId: number = 2;
     
     items: MenuItem[];
 

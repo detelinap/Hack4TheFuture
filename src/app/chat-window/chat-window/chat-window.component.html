@@ -1,0 +1,39 @@
+<div class="chat-wrapper">
+    <div class="message-history">
+        <div class="messages" #messageContainer>
+            <ng-container class=" p-m-2 name" *ngIf="!receiverTyping">
+                <p-chip [label]='receiverName' image="assets/cheerful-curly-business-girl-wearing-glasses.jpg"></p-chip>
+            </ng-container>
+            <p-divider align="center">
+                <span class="p-tag">Стари съобщения</span>
+            </p-divider>
+            <ng-container *ngFor="let message of messages">
+                <div *ngIf="message.sentBy === senderId" class="sent">
+                    {{message.message}}
+                    <div class="timestamp">
+                        {{message.timeStamp}}
+                    </div>
+                </div>
+                <div *ngIf="message.sentBy === recieverId" class="sent">
+                    {{message.message}}
+                    <div class="timestamp">
+                        {{message.timeStamp}}
+                    </div>
+                </div>
+            </ng-container>
+        </div>
+    </div>
+    <div class="user-input">
+        <input pInputText type="text" [(ngModel)]="message" placeholder="..." (keyup.enter)="sendMessage()" />
+        <button type="button" (click)="sendMessage()">
+      <img src="../../../assets/send.svg" alt="">
+    </button>
+    </div>
+
+    <div class="chat-window-header">
+        <ng-container *ngIf="receiverTyping">
+            {{name}} пише...
+        </ng-container>
+    </div>
+
+</div>

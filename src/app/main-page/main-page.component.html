@@ -1,4 +1,13 @@
 <div class="p-grid">
     <p-tabMenu class="p-col-12 p-lg-12" [model]="items" [activeItem]="items[0]"></p-tabMenu>
 </div>
-<!-- <webcam></webcam> -->
+<div class=" p-p-1 p-shadow-24 p-grid chat">
+    <webcam class="p-col-6 p-lg-6 webcam">
+    </webcam>
+    <div class="p-col-6 p-lg-6 ">
+        <div class="p-grid chat ">
+            <app-chat-window class="p-col-4 p-lg-4 " [senderId]="userOneId " [receiverId]="userTwoId "></app-chat-window>
+            <app-chat-window class="p-col-4 p-lg-4 " [senderId]="userTwoId " [receiverId]="userOneId "></app-chat-window>
+        </div>
+    </div>
+</div>
